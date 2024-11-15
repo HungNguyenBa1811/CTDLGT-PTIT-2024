@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define ed "\n"
+#define use(x) freopen(x".inp", "r", stdin); freopen(x".out", "w", stdout);
+#define BidenJr 0
+int x_4axis[] = {-1, 0, 0, 1};
+int y_4axis[] = {0, -1, 1, 0};
+int x_8axis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+int y_8axis[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+const int MOD = 1e9 + 7;
+
+string solve(string s){
+	stack<char> st;
+	for(int i = 0; i < s.size(); i++){
+	    if(s[i] != ')') st.push(s[i]);
+	    else{
+	        string tmp = "";
+	        while(st.top() != '('){
+	            tmp = st.top() + tmp;
+	            st.pop();
+	        }
+	        st.pop();
+	        if(!st.empty() && st.top() == '-'){
+	            for(char j : tmp){
+	                if(j == '+') j = '-';
+	                else if(j == '-') j = '+';
+	                st.push(j);
+	            }
+	        }
+	        else{
+	            for(char j : tmp){
+	                st.push(j);
+	            }
+	        }
+	    }
+	}
+	string res = "";
+	while(!st.empty()){
+	    res = st.top() + res;
+	    st.pop();
+	}
+	return res;
+}
+
+int main(){
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	int t; cin >> t;
+	while(t--){
+	    string s1, s2;
+		cin >> s1 >> s2;
+		if(solve(s1) == solve(s2)) cout << "YES" << ed;
+		else cout << "NO" << ed;
+	}
+	return BidenJr;
+}
