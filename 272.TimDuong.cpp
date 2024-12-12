@@ -10,43 +10,56 @@ int x_8axis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int y_8axis[] = {-1, 0, 1, -1, 1, -1, 0, 1};
 const int MOD = 1e9 + 7;
 
-char a[105][105];
-int n, _x, _y, _u, _v;
+char a[505][505];
+int n, m, _x, _y, _u, _v;
 
 int BFS(int x, int y, int u, int v){
 	queue<pair<pair<int, int>, int>> q;
-	q.push({{x, y}, 0});
-	a[x][y] = 'X';
+	q.push({{x, y}, -1});
+	a[x][y] = '*';
 	while(!q.empty()){
 		pair<pair<int, int>, int> qtop = q.front(); q.pop();
 		int i = qtop.first.first;
 		int j = qtop.first.second;
 		int cnt = qtop.second;
-		if(i == u && j == v) return cnt;
+		if(i == u && j == v) return 1;
+		if(cnt == 2) continue;
 		for(int idx = 0; idx < 4; idx++){
 			int i1 = i + x_4axis[idx];
 			int j1 = j + y_4axis[idx];
-			while(i1 > 0 && i1 <= n && j1 > 0 && j1 <= n && a[i1][j1] == '.'){
+			while(i1 > 0 && i1 <= n && j1 > 0 && j1 <= m && a[i1][j1] == '.'){
 				q.push({{i1, j1}, cnt + 1});
-				a[i1][j1] = 'X';
+				a[i1][j1] = '*';
 					i1 += x_4axis[idx];
 					j1 += y_4axis[idx];
 			}
 		}
 	}
-	return -1;
+	return 0;
 }
 
 void input(){
-	cin >> n;
+	cin >> n >> m;
 	for(int i = 1; i <= n; i++)
-		for(int j = 1; j <= n; j++)
+		for(int j = 1; j <= m; j++)
 			cin >> a[i][j];
-	cin >> _x >> _y >> _u >> _v;
+	for(int i = 1; i <= n; i++){
+		for(int j = 1; j <= m; j++){
+			if(a[i][j] == 'S'){
+				_x = i;
+				_y = j;
+				a[i][j] = '.';
+			} else if(a[i][j] == 'T'){
+				_u = i;
+				_v = j;
+				a[i][j] = '.';
+			}
+		}
+	}
 }
 
 void solve(){
-	cout << BFS(_x + 1, _y + 1, _u + 1, _v + 1) << ed;
+	cout << ((BFS(_x, _y, _u, _v)) ? "YES" : "NO") << ed;
 }
 
 int main(){

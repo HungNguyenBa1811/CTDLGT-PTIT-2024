@@ -10,42 +10,50 @@ int x_8axis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int y_8axis[] = {-1, 0, 1, -1, 1, -1, 0, 1};
 const int MOD = 1e9 + 7;
 
-struct Node {
+struct node {
 	int data;
-	Node *l;
-	Node *r;
-	Node(int data){
+	node *l;
+	node *r;
+	node(int data){
 		this->data = data;
 	}
 };
 
-typedef struct Node* node;
-
 int u, v;
 char x;
 
-void build(node root){
+void build(node *root){
 	if(root == NULL) return;
 	if(root->data == u){
-		if(x == 'L') root->l = new Node(v);
-		else root->r = new Node(v);
+		if(x == 'L') root->l = new node(v);
+		else root->r = new node(v);
 	} else {
 		build(root->l);
 		build(root->r);
 	}
 }
 
-void levelOrder(node root){
-	if(root == NULL) return;
-	queue<node> q;
-	q.push(root);
+int lvl;
+
+bool check(node *root){
+	queue<pair<node*, int>> q;
+	q.push({root, 0});
 	while(!q.empty()){
-		node tmp = q.front();
-		cout << tmp->data << " ";
-		q.pop();
-		if(tmp->l != NULL) q.push(tmp->l);
-		if(tmp->r != NULL) q.push(tmp->r);
+		auto tmp = q.front(); q.pop();
+		if(tmp.first->l == NULL && tmp.first->r == NULL){
+			if(lvl == -123) lvl = tmp.second;
+			else {
+				if(lvl != tmp.second) return false;
+			}
+		}
+		if(tmp.first->l != NULL){
+			q.push({tmp.first->l, tmp.second + 1});
+		}
+		if(tmp.first->r != NULL){
+			q.push({tmp.first->r, tmp.second + 1});
+		}
 	}
+	return true;
 }
 
 int main(){
@@ -53,16 +61,16 @@ int main(){
 	int t; cin >> t;
 	while(t--){
 		int n; cin >> n;
-		node root = NULL;
+		node *root = NULL;
 		while(n--){
 			cin >> u >> v >> x;
 			if(root == NULL){
-				root = new Node(u);
+				root = new node(u);
 			}
 			build(root);
 		}
-		levelOrder(root);
-		cout << ed;
+		lvl = -123;
+		cout << (check(root) ? "1" : "0") << ed;
 	}
 	return BidenJr;
 }
