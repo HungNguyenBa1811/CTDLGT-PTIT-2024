@@ -11,40 +11,40 @@ int x_8axis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int y_8axis[] = {-1, 0, 1, -1, 1, -1, 0, 1};
 const int MOD = 1e9 + 7;
 
-int dungbeu[1001];
-int mo, beu_check;
+int X[1001];
+int n, ok;
 
 void ktao(){
-	for(int i = 1; i <= mo; i++) dungbeu[i] = 0;
+	for(int i = 1; i <= n; i++) X[i] = 0;
 }
 
 void in(){
-	for(int i = 1; i <= mo; i++) cout << dungbeu[i] << ' ';
+	for(int i = 1; i <= n; i++) cout << X[i] << ' ';
 }
 
 void in_reverse(){
-	for(int i = mo; i >= 1; i--) cout << dungbeu[i] << ' ';
+	for(int i = n; i >= 1; i--) cout << X[i] << ' ';
 }
 
-void somo(){
-	int i = mo;
-	while(i > 0 && dungbeu[i]){
-		dungbeu[i] = 0;
+void sinh(){
+	int i = n;
+	while(i > 0 && X[i]){
+		X[i] = 0;
 		i--;
 	}
-	if(i == 0) beu_check = 0;
-	else dungbeu[i] = 1;
+	if(i == 0) ok = 0;
+	else X[i] = 1;
 }
 
 int main(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	cin >> mo;
-	int beu = mo % 2;
-	mo /= 2;
+	cin >> n;
+	int nnai = n % 2;
+	n /= 2;
 	ktao();
-	beu_check = 1;
-	while(beu_check){
-		if(beu){
+	ok = 1;
+	while(ok){
+		if(nnai){
 			in();
 			cout << 0;
 			in_reverse();
@@ -57,7 +57,7 @@ int main(){
 			in_reverse();
 		}
 		cout << ed;
-		somo();
+		sinh();
 	}
 	return BidenJr;
 }

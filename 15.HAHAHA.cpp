@@ -10,51 +10,51 @@ int x_8axis[] = {-1, -1, -1, 0, 0, 1, 1, 1};
 int y_8axis[] = {-1, 0, 1, -1, 1, -1, 0, 1};
 const int MOD = 1e9 + 7;
 
-int dungbeu[1001];
-int mo, beu_check;
+int X[1001];
+int n, ok;
 
-int kiemtrahamluongmo(){
-	if(dungbeu[1] != 1 || dungbeu[mo] != 0) return 0;
-	for(int i = 2; i <= mo - 1; i++){
-		if(dungbeu[i]){
-			if(dungbeu[i + 1] || dungbeu[i - 1]) return 0;
+int check(){
+	if(X[1] != 1 || X[n] != 0) return 0;
+	for(int i = 2; i <= n - 1; i++){
+		if(X[i]){
+			if(X[i + 1] || X[i - 1]) return 0;
 		}
 	}
 	return 1;
 }
 
 void ktao(){
-	for(int i = 1; i <= mo; i++) dungbeu[i] = 0;
-	dungbeu[1] = 1;
+	for(int i = 1; i <= n; i++) X[i] = 0;
+	X[1] = 1;
 }
 
 void in(){
-	for(int i = 1; i <= mo; i++) (dungbeu[i]) ? cout << "H" : cout << "A";
+	for(int i = 1; i <= n; i++)  cout << ((X[i]) ? "H" : "A");
 }
 
-void somo(){
-	int i = mo;
-	while(i > 0 && dungbeu[i]){
-		dungbeu[i] = 0;
+void sinh(){
+	int i = n;
+	while(i > 0 && X[i]){
+		X[i] = 0;
 		i--;
 	}
-	if(i == 0) beu_check = 0;
-	else dungbeu[i] = 1;
+	if(i == 0) ok = 0;
+	else X[i] = 1;
 }
 
 int main(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	int t; cin >> t;
 	while(t--){
-		cin >> mo;
+		cin >> n;
 		ktao();
-		beu_check = 1;
-		while(beu_check){
-			if(kiemtrahamluongmo()){
+		ok = 1;
+		while(ok){
+			if(check()){
 				in();
 				cout << ed;
 			}
-			somo();
+			sinh();
 		}
 	}
 	return BidenJr;
